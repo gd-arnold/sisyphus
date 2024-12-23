@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import { App } from "../src/config.js"
 
 const prisma = new PrismaClient();
 
 // logging for dev environment
-if (process.env.NODE_ENV === 'development') {
+if (App.env === 'dev') {
     prisma.$use(async (params, next) => {
         const before = Date.now();
         const result = await next(params);
