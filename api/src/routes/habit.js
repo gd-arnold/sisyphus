@@ -1,8 +1,9 @@
 import express from "express"
+import { auth } from "../middlewares/auth.js"
 
 const HabitRouter = express.Router();
 
-HabitRouter.get("/", (req, res) => {
+HabitRouter.get("/", auth, (req, res) => {
     // TODO: handle habit get
     res.status(200).send();
 });

@@ -14,6 +14,11 @@ const AuthService = {
             where: { username: username }
         });
     },
+    findUserById: async (id) => {
+        return await prisma.user.findFirst({
+            where: { id: id}
+        });
+    },
     hashPassword: async (password, saltRounds = 10) => {
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(password, salt);
@@ -39,6 +44,9 @@ const AuthService = {
     },
     generateToken: (payload) => {
         return jwt.sign(payload, App.jwt_secret);
+    },
+    verifyToken: (token) => {
+        return jwt.verify(token, App.jwt_secret);
     }
 };
 
