@@ -1,5 +1,7 @@
+import jwt from "jsonwebtoken"
 import prisma from "../../prisma/client.js"
 import bcrypt from "bcrypt"
+import { App } from "../config.js";
 
 const AuthService = {
     findUserByEmail: async (email) => {
@@ -26,10 +28,14 @@ const AuthService = {
                 password: hashedPassword
             },
             select: {
+                id: true,
                 email: true,
                 username: true
             }
         });
+    },
+    generateToken: (payload) => {
+        return jwt.sign(payload, App.jwt_secret);
     }
 };
 

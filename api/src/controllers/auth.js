@@ -14,9 +14,11 @@ const AuthController = {
             const hashedPassword = await AuthService.hashPassword(password);
             const user = await AuthService.saveUser(email, username, hashedPassword);
 
-            // todo: generate auth token
+            const payload = { id: user.id, email: user.email, username: user.username };
+            const token = AuthService.generateToken(payload);
+            console.log(token);
 
-            return res.status(200).send(user);
+            return res.status(201).send({...payload, token});
         } catch (e) {
             return res.status(500).send();
         }

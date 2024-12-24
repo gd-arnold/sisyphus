@@ -9,4 +9,3 @@ AuthRouter.post("/register", validateBody(AuthSchema.register), AuthController.r
 AuthRouter.post("/login", validateBody(AuthSchema.login), AuthController.login);
 
 export default AuthRouter;
-
