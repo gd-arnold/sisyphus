@@ -34,6 +34,9 @@ const AuthService = {
             }
         });
     },
+    isPasswordValid: async (user, password) => {
+        return await bcrypt.compare(password, user.password);
+    },
     generateToken: (payload) => {
         return jwt.sign(payload, App.jwt_secret);
     }

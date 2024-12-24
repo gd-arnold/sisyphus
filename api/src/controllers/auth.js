@@ -16,7 +16,6 @@ const AuthController = {
 
             const payload = { id: user.id, email: user.email, username: user.username };
             const token = AuthService.generateToken(payload);
-            console.log(token);
 
             return res.status(201).send({...payload, token});
         } catch (e) {
@@ -27,7 +26,21 @@ const AuthController = {
     login: async (req, res) => {
         const { email, password } = req.body;
 
-        return res.status(200).send();
+        try {
+            const user = await AuthService.findUserByEmail(email);
+            if (user === null)
+                return res.status(401).json({ error: "Invalid credentials." });
+
+            if (!(await AuthService.isPasswordValid(user, password)))
+                return res.status(401).json({ error: "Invalid credentials." });
+
+            const payload = { id: user.id, email: user.email, username: user.username };
+            const token = AuthService.generateToken(payload);
+
+            return res.status(200).send({...payload, token});
+        } catch (e) {
+            return res.status(500).send();
+        }
     }
 };
 
