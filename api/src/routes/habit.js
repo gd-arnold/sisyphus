@@ -1,21 +1,17 @@
 import express from "express"
 import { auth } from "../middlewares/auth.js"
+import { validateBody } from "../middlewares/validate.js";
+import HabitSchema from "../schemas/habit.js";
+import HabitController from "../controllers/habit.js";
 
 const HabitRouter = express.Router();
 
-HabitRouter.get("/", auth, (req, res) => {
-    // TODO: handle habit get
-    res.status(200).send();
-});
+HabitRouter.use(auth);
 
-HabitRouter.post("/", (req, res) => {
-    // TODO: handle habit post
-    res.status(200).send();
-});
+HabitRouter.get("/", HabitController.get);
 
-HabitRouter.delete("/:id", (req, res) => {
-    // TODO: handle habit delete
-    res.status(200).send();
-});
+HabitRouter.post("/", validateBody(HabitSchema), HabitController.post);
+
+HabitRouter.delete("/:id", HabitController.delete);
 
 export default HabitRouter;
