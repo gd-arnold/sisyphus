@@ -3,7 +3,7 @@ import cors from "cors"
 import { App } from "./config.js"
 import AuthRouter from "./routes/auth.js";
 import HabitRouter from "./routes/habit.js";
-import HabitLogsRouter from "./routes/habit-logs.js";
+import HabitLogsRouter from "./routes/habit-log.js";
 
 const app = express();
 
@@ -12,6 +12,6 @@ app.use(express.json());
 
 app.use("/auth", AuthRouter);
 app.use("/habit", HabitRouter);
-app.use("/habit-logs", HabitLogsRouter);
+app.use("/habit-log", HabitLogsRouter);
 
 app.listen(App.port, () => console.log(`UP & RUNNING ON PORT ${App.port}`));
