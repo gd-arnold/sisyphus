@@ -1,7 +1,7 @@
 import prisma from "../../prisma/client.js";
 
 const HabitService = {
-    getAll: async (userId) => {
+    findAllByUserId: async (userId) => {
         return await prisma.habit.findMany({
             where: { userId: userId } ,
             select: {
@@ -13,6 +13,11 @@ const HabitService = {
                     }
                 }
             }
+        });
+    },
+    findById: async (id) => {
+        return await prisma.habit.findFirst({
+            where: { id: id } 
         });
     },
     save: async (title, userId) => {
@@ -30,6 +35,11 @@ const HabitService = {
                     }
                 }
             }
+        });
+    },
+    deleteById: async (id) => {
+        return await prisma.habit.delete({
+            where: { id: id }
         });
     }
 }

@@ -2,10 +2,10 @@ import HabitService from "../services/habit.js";
 
 const HabitController = {
     get: async (req, res) => {
-        const userId = req.userPayload.id;
+        const userId = Number(req.userPayload.id);
 
         try {
-            const habits = await HabitService.getAll(userId);
+            const habits = await HabitService.findAllByUserId(userId);
 
             return res.status(200).send(habits);
         } catch (e) {
@@ -14,7 +14,7 @@ const HabitController = {
     },
     post: async (req, res) => {
         const { title } = req.body;
-        const userId = req.userPayload.id;
+        const userId = Number(req.userPayload.id);
 
         try {
             const habit = await HabitService.save(title, userId);
@@ -25,7 +25,21 @@ const HabitController = {
         }
     },
     delete: async (req, res) => {
-        return res.status(200).send();
+        const id = Number(req.params.id);
+        const userId = Number(req.userPayload.id);
+
+        try {
+            const habit = await HabitService.findById(id);
+
+            if (habit === null || habit.userId !== userId)
+                return res.status(401).send();
+
+            await HabitService.deleteById(id);
+
+            return res.status(204).send();
+        } catch (e) {
+            return res.status(500).send();
+        }
     },
 };
 
