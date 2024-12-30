@@ -13,9 +13,11 @@ const HabitLogController = {
             if (habit === null || habit.userId !== userId)
                 return res.status(401).send();
 
-            // todo: check for duplicate entry
+            if ((await HabitLogService.findByDate(habitId, date)) !== null)
+                return res.status(409).send();
 
             const habitLog = await HabitLogService.save(habitId, date);
+
             return res.status(201).send(habitLog);
         } catch (e) {
             console.log(e);
