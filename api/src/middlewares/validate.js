@@ -3,7 +3,7 @@ export const validateBody = (schema) => {
         const { error } = schema.validate(req.body);
 
         if (error)
-            return res.status(400).send(error);
+            return res.status(400).json(error);
 
         next();
     };
@@ -14,7 +14,7 @@ export const validateParams = (schema) => {
         const { error } = schema.validate(req.params);
 
         if (error)
-            return res.status(400).send(error);
+            return res.status(400).json(error);
 
         next();
     }

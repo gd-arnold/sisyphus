@@ -6,10 +6,10 @@ const AuthController = {
 
         try {
             if (await AuthService.findUserByEmail(email) !== null)
-                return res.status(409).send({ error: "Email already exists." });
+                return res.status(409).json({ error: "Email already exists." });
 
             if (await AuthService.findUserByUsername(username) !== null)
-                return res.status(409).send({ error: "Username already exists." });
+                return res.status(409).json({ error: "Username already exists." });
 
             const hashedPassword = await AuthService.hashPassword(password);
             const user = await AuthService.saveUser(email, username, hashedPassword);
@@ -17,9 +17,9 @@ const AuthController = {
             const payload = { id: user.id, email: user.email, username: user.username };
             const token = AuthService.generateToken(payload);
 
-            return res.status(201).send({...payload, token});
+            return res.status(201).json({...payload, token});
         } catch (e) {
-            return res.status(500).send();
+            return res.status(500).end();
         }
     },
 
@@ -37,9 +37,9 @@ const AuthController = {
             const payload = { id: user.id, email: user.email, username: user.username };
             const token = AuthService.generateToken(payload);
 
-            return res.status(200).send({...payload, token});
+            return res.status(200).json({...payload, token});
         } catch (e) {
-            return res.status(500).send();
+            return res.status(500).end();
         }
     }
 };

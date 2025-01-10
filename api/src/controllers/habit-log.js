@@ -11,24 +11,23 @@ const HabitLogController = {
             const habit = await HabitService.findById(habitId);
 
             if (habit === null || habit.userId !== userId)
-                return res.status(401).send();
+                return res.status(401).end();
 
             if ((await HabitLogService.findByDate(habitId, date)) !== null)
-                return res.status(409).send();
+                return res.status(409).end();
 
             const habitLog = await HabitLogService.save(habitId, date);
 
-            return res.status(201).send(habitLog);
+            return res.status(201).json(habitLog);
         } catch (e) {
-            console.log(e);
-            return res.status(500).send();
+            return res.status(500).end();
         }
     },
     delete: async (req, res) => {
         try {
-            return res.status(204).send();
+            return res.status(204).end();
         } catch (e) {
-            return res.status(500).send();
+            return res.status(500).end();
         }
     }
 };
