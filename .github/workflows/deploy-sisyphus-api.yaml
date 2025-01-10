@@ -1,0 +1,55 @@
+name: Run Prisma migrations, build sisyphus-api docker image and push to DO container registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "api/**"
+
+env:
+  REGISTRY: registry.digitalocean.com/sisyphus-registry
+  IMAGE_NAME: sisyphus-api
+
+jobs:
+  run-migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: api
+      
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        working-directory: api
+
+  build-and-push:
+    needs: run-migrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t $REGISTRY/$IMAGE_NAME -f api/Dockerfile api
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+
+      - name: Authorize docker to push to DO container registry
+        run: doctl registry login --expiry-seconds 900
+
+      - name: Push image
+        run: docker push $REGISTRY/$IMAGE_NAME
