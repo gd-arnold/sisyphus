@@ -13,6 +13,7 @@ const HabitLogController = {
             if (habit === null || habit.userId !== userId)
                 return res.status(401).end();
 
+            // check if log already exists
             if ((await HabitLogService.findByDate(habitId, date)) !== null)
                 return res.status(409).end();
 
@@ -24,9 +25,24 @@ const HabitLogController = {
         }
     },
     delete: async (req, res) => {
+        const userId = Number(req.userPayload.id);
+        const logId = Number(req.params.id);
+
         try {
+            const log = await HabitLogService.findById(logId);
+
+            if (log === null)
+                return res.status(401).end();
+
+            const habit = await HabitService.findById(log.habitId);
+
+            if (habit === null || habit.userId !== userId)
+                return res.status(401).end();
+
+            await HabitLogService.deleteById(logId);
             return res.status(204).end();
         } catch (e) {
+            console.log(e);
             return res.status(500).end();
         }
     }

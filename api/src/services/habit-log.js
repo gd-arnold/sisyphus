@@ -7,7 +7,12 @@ const HabitLogService = {
                 habitId: habitId,
                 date: date
             }
-        })
+        });
+    },
+    findById: async (id) => {
+        return await prisma.habitLog.findFirst({
+            where: { id: id },
+        });
     },
     save: async (habitId, date) => {
         return await prisma.habitLog.create({
@@ -20,6 +25,11 @@ const HabitLogService = {
                 date: true,
                 habitId: true
             }
+        });
+    },
+    deleteById: async (id) => {
+        return await prisma.habitLog.delete({
+            where: { id: id }
         });
     }
 };
