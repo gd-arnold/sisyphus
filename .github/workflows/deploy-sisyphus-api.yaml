@@ -1,4 +1,4 @@
-name: Run Prisma migrations, build sisyphus-api docker image and push to DO container registry
+name: Build and Push docker image to DO container registry
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build image
-        run: docker build -t $REGISTRY/$IMAGE_NAME -f api/Dockerfile api
+        run: docker build -t $REGISTRY/$IMAGE_NAME:$(echo $GITHUB_SHA | head -c7) -f api/Dockerfile api
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -52,4 +52,4 @@ jobs:
         run: doctl registry login --expiry-seconds 900
 
       - name: Push image
-        run: docker push $REGISTRY/$IMAGE_NAME
+        run: docker push $REGISTRY/$IMAGE_NAME:$(echo $GITHUB_SHA | head -c7)

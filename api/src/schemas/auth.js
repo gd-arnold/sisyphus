@@ -4,7 +4,7 @@ const email = Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'edu', 'gov', 'io', 'co'] } })
     .required()
     .trim()
-    .lowercase()
+    .lowercase();
 
 const AuthSchema = {
     register: Joi.object({
