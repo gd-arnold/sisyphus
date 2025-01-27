@@ -26,6 +26,6 @@ const AuthSchema = {
         email,
         password: Joi.string().required()
     }).required()
-}
+};
 
 export default AuthSchema;
