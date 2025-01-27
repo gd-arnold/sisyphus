@@ -59,7 +59,7 @@ jobs:
           git clone https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/gd-arnold/sisyphus-infra.git
           cd sisyphus-infra/kubernetes/sisyphus-api
 
-          sed -i "s|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:.*|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:$(echo $GITHUB_SHA | head -c7)" deployment.yaml
+          sed -i "s|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:.*|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:$(echo $GITHUB_SHA | head -c7)|" deployment.yaml
 
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
