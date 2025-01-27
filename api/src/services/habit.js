@@ -42,6 +42,6 @@ const HabitService = {
             where: { id: id }
         });
     }
-}
+};
 
 export default HabitService;

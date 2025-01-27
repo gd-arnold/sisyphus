@@ -57,7 +57,7 @@ jobs:
       - name: Update Kubernetes manifests
         run: |
           git clone https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/gd-arnold/sisyphus-infra.git
-          cd sisyphus-infra/kubernetes/siyphus-api
+          cd sisyphus-infra/kubernetes/sisyphus-api
 
           sed -i "s|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:.*|image: registry.digitalocean.com/sisyphus-registry/sisyphus-api:$(echo $GITHUB_SHA | head -c7)" deployment.yaml
 
