@@ -1,4 +1,4 @@
-name: Build and Push docker image to DO container registry
+name: Build and Push API to Digital Ocean
 
 on:
   push:

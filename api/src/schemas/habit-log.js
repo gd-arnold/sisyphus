@@ -10,6 +10,6 @@ const HabitLogSchema = Joi.object({
     .iso()
     .max("now")
     .required(),
-})
+});
 
 export default HabitLogSchema;
