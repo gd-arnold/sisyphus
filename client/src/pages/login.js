@@ -1,11 +1,11 @@
 import Page from "../components/Page";
 
-function Home() {
+function Login() {
     return (
         <Page>
-            <div>Home</div>
+            <div>Login</div>
         </Page>
     );
 }
 
-export default Home;
+export default Login;
