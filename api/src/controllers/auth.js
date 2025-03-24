@@ -41,6 +41,10 @@ const AuthController = {
         } catch (e) {
             return res.status(500).end();
         }
+    },
+
+    me: async (req, res) => {
+        return res.status(200).json({user: req.userPayload});
     }
 };
 
