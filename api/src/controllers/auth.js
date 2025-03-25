@@ -17,7 +17,7 @@ const AuthController = {
             const payload = { id: user.id, email: user.email, username: user.username };
             const token = AuthService.generateToken(payload);
 
-            return res.status(201).json({...payload, token});
+            return res.status(201).json({user: payload, token});
         } catch (e) {
             return res.status(500).end();
         }
@@ -37,7 +37,7 @@ const AuthController = {
             const payload = { id: user.id, email: user.email, username: user.username };
             const token = AuthService.generateToken(payload);
 
-            return res.status(200).json({...payload, token});
+            return res.status(200).json({user: payload, token});
         } catch (e) {
             return res.status(500).end();
         }
