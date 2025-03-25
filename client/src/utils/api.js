@@ -28,7 +28,7 @@ const api = {
             const response = await fetch(API_URL + url, {
                 method: "POST",
                 headers,
-                body
+                body: JSON.stringify(body)
             });
             const data = await response.json();
 
