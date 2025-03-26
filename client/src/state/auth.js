@@ -30,6 +30,15 @@ const useAuth = create((set) => ({
         } catch (e) {
             console.error(e);
         }
+    },
+
+    logout: () => {
+        localStorage.removeItem("token");
+        set({
+            user: null,
+            token: null,
+            isAuthenticated: false
+        });
     }
 }));
 
