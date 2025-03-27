@@ -15,13 +15,15 @@ function Register() {
 
     const navigate = useNavigate();
 
-    const { isAuthenticated, register, error } = useAuth();
+    const { isAuthenticated, register, error, clearError } = useAuth();
     const { fetchUser } = useUser();
 
     useEffect(() => {
         if (isAuthenticated)
             navigate("/");
-    }, [isAuthenticated, navigate]);
+
+        clearError();
+    }, [isAuthenticated, navigate, clearError]);
 
     const validateForm = () => {
         if (password !== confirmPassword) {

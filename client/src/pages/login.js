@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../state/user";
 
 function Login() {
-    const { login, error, isAuthenticated } = useAuth();
+    const { login, error, clearError, isAuthenticated } = useAuth();
     const { fetchUser } = useUser();
 
     const [email, setEmail] = useState("");
@@ -17,7 +17,9 @@ function Login() {
     useEffect(() => {
         if (isAuthenticated)
             navigate("/");
-    }, [isAuthenticated, navigate])
+
+        clearError();
+    }, [isAuthenticated, navigate, clearError])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

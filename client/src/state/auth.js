@@ -22,12 +22,10 @@ const useAuth = create((set) => ({
 
             throw new Error("API didn't send token");
         } catch (e) {
-            if (e.data && e.data.error) {
-                set({
-                    error: e.data.error,
-                    isAuthenticated: false
-                });
-            }
+            set({
+                error: (e.data && e.data.error) ? e.data.error : "Something went wrong. Please try again later.",
+                isAuthenticated: false
+            });
 
             return false;
         }
@@ -49,14 +47,11 @@ const useAuth = create((set) => ({
 
             throw new Error("API didn't send token");
         } catch (e) {
-            if (e.data && e.data.error) {
-                set({
-                    error: e.data.error,
-                    isAuthenticated: false
-                });
-            }
+            set({
+                error: (e.data && e.data.error) ? e.data.error : "Something went wrong. Please try again later.",
+                isAuthenticated: false
+            });
 
-            console.error(e);
             return false;
         }
     },
@@ -67,6 +62,10 @@ const useAuth = create((set) => ({
             token: null,
             isAuthenticated: false
         });
+    },
+
+    clearError: () => {
+        set({ error: null });
     }
 }));
 
