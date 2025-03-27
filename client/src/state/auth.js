@@ -32,6 +32,30 @@ const useAuth = create((set) => ({
         }
     },
 
+    register: async (email, username, password) => {
+        try {
+            const response = await api.post("/auth/register", { email, username, password });
+
+            if (response.token) {
+                localStorage.setItem("token", response.token);
+
+                set({
+                    user: response.user,
+                    token: response.token,
+                    isAuthenticated: true,
+                });
+                return true;
+            }
+            set({
+                error: response.error,
+                isAuthenticated: false
+            });
+            return false;
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
     logout: () => {
         localStorage.removeItem("token");
         set({
