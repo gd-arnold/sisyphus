@@ -2,7 +2,6 @@ import { create } from "zustand";
 import api from "../utils/api";
 
 const useAuth = create((set) => ({
-    user: null,
     token: localStorage.getItem("token"),
     isAuthenticated: !!localStorage.getItem("token"),
     error: null,
@@ -15,7 +14,6 @@ const useAuth = create((set) => ({
                 localStorage.setItem("token", response.token);
 
                 set({
-                    user: response.user,
                     token: response.token,
                     isAuthenticated: true,
                 });
@@ -40,7 +38,6 @@ const useAuth = create((set) => ({
                 localStorage.setItem("token", response.token);
 
                 set({
-                    user: response.user,
                     token: response.token,
                     isAuthenticated: true,
                 });
@@ -59,7 +56,6 @@ const useAuth = create((set) => ({
     logout: () => {
         localStorage.removeItem("token");
         set({
-            user: null,
             token: null,
             isAuthenticated: false
         });

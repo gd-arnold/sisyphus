@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Page from "../components/Page";
 import useAuth from "../state/auth";
 import { useNavigate } from "react-router-dom";
+import useUser from "../state/user";
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -14,7 +15,8 @@ function Register() {
 
     const navigate = useNavigate();
 
-    const {isAuthenticated, register, error } = useAuth();
+    const { isAuthenticated, register, error } = useAuth();
+    const { fetchUser } = useUser();
 
     useEffect(() => {
         if (isAuthenticated)
@@ -44,10 +46,11 @@ function Register() {
 
         setIsLoading(true);
         const success = await register(email, username, password);
-        setIsLoading(false);
-
-        if (success)
+        if (success) {
+            await fetchUser();
             navigate("/");
+        }
+        setIsLoading(false);
     };
 
     return (

@@ -1,18 +1,24 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
+const setHeaders = () => {
+    const headers = {
+        "Content-type": "application/json"
+    };
+
+    const token = localStorage.getItem("token");
+    if (token)
+        headers["Authorization"] = `Bearer ${token}`;
+
+    return headers;
+}
+
 const api = {
     get: async (url) => {
-        const headers = {
-            "Content-type": "application/json"
-        };
-
         try {
-            console.log(API_URL);
             const response = await fetch(API_URL + url, {
-                headers
+                headers: setHeaders()
             });
             const data = await response.json();
-            console.log(data);
 
             return data;
         } catch (e) {
@@ -20,14 +26,10 @@ const api = {
         }
     },
     post: async (url, body) => {
-        const headers = {
-            "Content-type": "application/json"
-        };
-
         try {
             const response = await fetch(API_URL + url, {
                 method: "POST",
-                headers,
+                headers: setHeaders(),
                 body: JSON.stringify(body)
             });
             const data = await response.json();

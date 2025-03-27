@@ -4,14 +4,22 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import useAuth from "./state/auth";
 import Welcome from "./pages/welcome";
+import { useEffect } from "react";
+import useUser from "./state/user";
 
 function App() {
     const { isAuthenticated } = useAuth();
+    const { user, fetchUser } = useUser();
+
+    useEffect(() => {
+        if (isAuthenticated)
+            fetchUser();
+    }, [isAuthenticated, fetchUser]);
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={isAuthenticated ? (<Home />) : (<Welcome />)} />
+                <Route path="/" element={isAuthenticated ? (user ? <Home /> : undefined) : (<Welcome />)} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
             </Routes>

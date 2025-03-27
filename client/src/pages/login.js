@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Page from "../components/Page";
 import useAuth from "../state/auth";
 import { useNavigate } from "react-router-dom";
+import useUser from "../state/user";
 
 function Login() {
     const { login, error, isAuthenticated } = useAuth();
+    const { fetchUser } = useUser();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,10 +24,11 @@ function Login() {
 
         setIsLoading(true);
         const success = await login(email, password);
-        setIsLoading(false);
-
-        if (success)
+        if (success) {
+            await fetchUser();
             navigate("/");
+        }
+        setIsLoading(false);
     };
     
     return (
