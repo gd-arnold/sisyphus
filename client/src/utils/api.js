@@ -12,17 +12,36 @@ const setHeaders = () => {
     return headers;
 }
 
+const handleResponse = async (response) => {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType && contentType.includes('application/json');
+
+    const data = isJson ? await response.json() : await response.text();
+
+    if (response.ok) {
+        return data;
+    }
+
+    const error = {
+        status: response.status,
+        statusText: response.statusText,
+        data
+    };
+
+    return Promise.reject(error);
+};
+
 const api = {
     get: async (url) => {
         try {
             const response = await fetch(API_URL + url, {
                 headers: setHeaders()
             });
-            const data = await response.json();
 
-            return data;
+            return await handleResponse(response);
         } catch (e) {
             console.error(e);
+            throw e;
         }
     },
     post: async (url, body) => {
@@ -32,11 +51,11 @@ const api = {
                 headers: setHeaders(),
                 body: JSON.stringify(body)
             });
-            const data = await response.json();
 
-            return data;
+            return await handleResponse(response);
         } catch(e) {
             console.error(e);
+            throw e;
         }
     }
 };

@@ -19,14 +19,17 @@ const useAuth = create((set) => ({
                 });
                 return true;
             }
-            set({
-                error: response.error,
-                isAuthenticated: false
-            });
-            return false;
 
+            throw new Error("API didn't send token");
         } catch (e) {
-            console.error(e);
+            if (e.data && e.data.error) {
+                set({
+                    error: e.data.error,
+                    isAuthenticated: false
+                });
+            }
+
+            return false;
         }
     },
 
@@ -43,13 +46,18 @@ const useAuth = create((set) => ({
                 });
                 return true;
             }
-            set({
-                error: response.error,
-                isAuthenticated: false
-            });
-            return false;
+
+            throw new Error("API didn't send token");
         } catch (e) {
+            if (e.data && e.data.error) {
+                set({
+                    error: e.data.error,
+                    isAuthenticated: false
+                });
+            }
+
             console.error(e);
+            return false;
         }
     },
 

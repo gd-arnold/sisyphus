@@ -8,11 +8,16 @@ const useUser = create((set) => ({
         try {
             const response = await api.get("/auth/me");
 
-            set({
-                user: response.user
-            });
+            if (response.user) {
+                set({
+                    user: response.user
+                });
+            } else {
+                throw new Error("Failed fetching user");
+            }
         } catch (e) {
             console.error(e);
+            throw e;
         }
     }
 }));

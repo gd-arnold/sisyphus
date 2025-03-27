@@ -8,13 +8,15 @@ import { useEffect } from "react";
 import useUser from "./state/user";
 
 function App() {
-    const { isAuthenticated } = useAuth();
+    const { logout, isAuthenticated } = useAuth();
     const { user, fetchUser } = useUser();
 
     useEffect(() => {
-        if (isAuthenticated)
-            fetchUser();
-    }, [isAuthenticated, fetchUser]);
+        if (isAuthenticated) {
+            fetchUser().catch(logout);
+        }
+
+    }, [isAuthenticated, fetchUser, logout]);
 
     return (
         <BrowserRouter>
