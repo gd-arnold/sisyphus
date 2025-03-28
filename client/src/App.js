@@ -21,7 +21,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={isAuthenticated ? (user ? <Home /> : undefined) : (<Welcome />)} />
+                <Route path="/" element={isAuthenticated ? (user && <Home />) : (<Welcome />)} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
             </Routes>
