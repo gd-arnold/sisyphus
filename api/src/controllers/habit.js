@@ -7,7 +7,7 @@ const HabitController = {
         try {
             const habits = await HabitService.findAllByUserId(userId);
 
-            return res.status(200).json(habits);
+            return res.status(200).json({habits});
         } catch (e) {
             return res.status(500).end();
         }
@@ -19,7 +19,7 @@ const HabitController = {
         try {
             const habit = await HabitService.save(title, userId);
 
-            return res.status(201).json(habit);
+            return res.status(201).json({habit});
         } catch (e) {
             return res.status(500).end();
         }

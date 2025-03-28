@@ -19,7 +19,7 @@ const HabitLogController = {
 
             const habitLog = await HabitLogService.save(habitId, date);
 
-            return res.status(201).json(habitLog);
+            return res.status(201).json({log: habitLog});
         } catch (e) {
             return res.status(500).end();
         }
