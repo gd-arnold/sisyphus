@@ -16,6 +16,7 @@ function Home() {
 
         try {
             await addHabit(name);
+            setError("");
         } catch (e) {
             setError("Something went wrong. Please try again later.");
         }
