@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const email = Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'edu', 'gov', 'io', 'co'] } })
+    .email()
     .required()
     .trim()
     .lowercase();
@@ -18,7 +18,7 @@ const AuthSchema = {
         .trim(),
 
         password: Joi.string()
-        .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+        .min(8)
         .required()
     }).required(),
 
