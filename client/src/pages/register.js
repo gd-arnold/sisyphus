@@ -3,6 +3,7 @@ import Page from "../components/Page";
 import useAuth from "../state/auth";
 import { useNavigate } from "react-router-dom";
 import useUser from "../state/user";
+import Button from "../components/Button";
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -57,15 +58,15 @@ function Register() {
 
     return (
       <Page>
-        <div>
-          <div>
-            <h1>Create account</h1>
-            <p>Sign up to start tracking your habits</p>
+        <div className="flex flex-col gap-4 w-full max-w-md mx-auto">
+          <div className="flex flex-col gap-2 text-center">
+            <h1 className="text-4xl font-bold">Create account</h1>
+            <p className="text-light-gray">Sign up to start tracking your habits</p>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="email" className="text-sm text-light-gray">
                 Email
               </label>
               <input
@@ -74,13 +75,13 @@ function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-
+                className="rounded-md border-none bg-black px-4 py-2 outline-none"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="username">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="username" className="text-sm text-light-gray">
                 Username
               </label>
               <input
@@ -89,13 +90,13 @@ function Register() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="username"
-
+                className="rounded-md border-none bg-black px-4 py-2 outline-none"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="password">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-sm text-light-gray">
                 Password
               </label>
               <input
@@ -104,13 +105,13 @@ function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-
+                className="rounded-md border-none bg-black px-4 py-2 outline-none"
                 required
               />
             </div>
 
-            <div>
-              <label htmlFor="confirmPassword">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="confirmPassword" className="text-sm text-light-gray">
                 Confirm Password
               </label>
               <input
@@ -119,36 +120,36 @@ function Register() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-
+                className="rounded-md border-none bg-black px-4 py-2 outline-none"
                 required
               />
             </div>
 
             {passwordError && (
-              <div>
+              <div className="bg-red-500 bg-opacity-20 text-red-300 p-2 rounded text-sm">
                 {passwordError}
               </div>
             )}
 
             {error && (
-              <div>
+              <div className="bg-red-500 bg-opacity-20 text-red-300 p-2 rounded text-sm">
                 {error}
               </div>
             )}
 
-            <button
-
+            <Button
+              className="w-full py-2 mt-2"
               onClick={handleSubmit}
             >
               {isLoading ? "Creating account..." : "Create account"}
-            </button>
+            </Button>
           </form>
 
-          <div>
+          <div className="text-center text-light-gray">
             Already have an account?{" "}
             <button
               onClick={() => navigate("/login")}
-
+              className="text-blue hover:underline"
             >
               Sign in
             </button>
