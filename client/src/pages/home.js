@@ -1,53 +1,45 @@
 import { useEffect, useState } from "react";
 import Page from "../components/Page";
 import useUser from "../state/user";
+import { Plus } from "lucide-react";
+import CreateModal from "../components/modals/CreateModal";
 
 function Home() {
-    const { user, habits, fetchHabits, addHabit } = useUser();
-    const [name, setName] = useState("");
-    const [error, setError] = useState("");
+    const { habits, fetchHabits } = useUser();
+    const [showCreateModal, setShowCreateModal] = useState(false);
 
     useEffect(() => {
         fetchHabits().catch((e) => console.error(e));
     }, [fetchHabits])
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            await addHabit(name);
-            setError("");
-        } catch (e) {
-            setError("Something went wrong. Please try again later.");
-        }
-
-        setName("");
-    };
-
     return (
-        <Page>
-            <div>Hello {user.username}</div>
+        <>
+            {showCreateModal && (
+                <CreateModal onClose={() => setShowCreateModal(false)} />
+            )}
 
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Page>
+                <div className="flex flex-col gap-2 text-center">
+                    <h1 className="text-6xl font-bold">Sisyphus</h1>
+                    <h2 className="text-light-gray m-3">Track your habits every day</h2>
                 </div>
-        {error && (
-            <div>
-            {error}
-            </div>
-        )}
-                <button onClick={handleSubmit}>Add habit</button>
-            </form>
 
-            <h3> Habits </h3>
-            {habits?.map(habit => (
-                <div key={habit.id}>
-                    {habit.title}
+                <div className="flex w-full max-w-full flex-col gap-2 md:max-w-[750px]">
+                    {habits?.map(habit => (
+                        <div key={habit.id}>
+                            {habit.title}
+                        </div>
+                    ))}
+
+                    <button
+                        className="flex h-24 w-full items-center justify-center gap-2 rounded-lg bg-gray text-xl font-bold duration-100 hover:bg-opacity-80"
+                        onClick={() => setShowCreateModal(true)}
+                    >
+                        <Plus className="size-8" /> Create
+                    </button>
                 </div>
-            ))}
-        </Page>
+            </Page>
+        </>
     );
 }
 
