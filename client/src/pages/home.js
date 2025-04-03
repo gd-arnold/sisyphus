@@ -3,6 +3,7 @@ import Page from "../components/Page";
 import useUser from "../state/user";
 import { Plus } from "lucide-react";
 import CreateModal from "../components/modals/CreateModal";
+import Habit from "../components/Habit";
 
 function Home() {
     const { habits, fetchHabits } = useUser();
@@ -25,11 +26,7 @@ function Home() {
                 </div>
 
                 <div className="flex w-full max-w-full flex-col gap-2 md:max-w-[750px]">
-                    {habits?.map(habit => (
-                        <div key={habit.id}>
-                            {habit.title}
-                        </div>
-                    ))}
+                    {habits?.map((habit) => <Habit key={habit.id} {...habit} />)}
 
                     <button
                         className="flex h-24 w-full items-center justify-center gap-2 rounded-lg bg-gray text-xl font-bold duration-100 hover:bg-opacity-80"
