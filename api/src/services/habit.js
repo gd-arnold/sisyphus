@@ -9,6 +9,7 @@ const HabitService = {
                 title: true,
                 HabitLog: {
                     select: {
+                        id: true,
                         date: true
                     }
                 }
@@ -31,6 +32,7 @@ const HabitService = {
                 title: true,
                 HabitLog: {
                     select: {
+                        id: true,
                         date: true
                     }
                 }
