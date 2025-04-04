@@ -2,16 +2,27 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getLast365Days, groupDaysByMonth } from "../utils/utils";
 import HabitLog from "./HabitLog";
 
-function Habit({ id, name }) {
+function Habit({ id, title, logs }) {
+    const [habitName, setHabitName] = useState(title);
+
     const last365Days = useMemo(getLast365Days, []);
     const months = useMemo(() => groupDaysByMonth(last365Days), [last365Days]);
 
     const ref = useRef(null);
+    const spanRef = useRef(null);
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (spanRef.current && inputRef.current) {
+            const spanWidth = spanRef.current.offsetWidth;
+            inputRef.current.style.width = `${spanWidth + 5}px`;
+        }
+    }, [habitName]);
+
     useEffect(() => {
         if (!ref.current) return;
         ref.current.scrollLeft = ref.current.scrollWidth;
     }, []);
-
 
   return (
     <>
@@ -25,11 +36,31 @@ function Habit({ id, name }) {
               }}
             >
               <span
+                ref={spanRef}
                 className="invisible absolute max-w-full text-xl font-bold"
                 style={{ whiteSpace: "pre" }}
               >
-                {name}
+                {habitName || " "}
               </span>
+
+              <input
+                ref={inputRef}
+                value={habitName}
+                onChange={(e) => setHabitName(e.target.value)}
+                className="bg-transparent text-xl font-bold outline-none"
+                style={{ minWidth: "1ch" }}
+                //todo: rename onBlur={rename}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // todo: rename habit  
+                    inputRef.current?.blur();
+                  }
+                }}
+              />
+
             </div>
 
           </div>
@@ -51,14 +82,14 @@ function Habit({ id, name }) {
                     marginLeft: `${margin * 13}px`,
                   }}
                 >
-                  {month.split(", ")[0]}
+                  {month.split(" ")[1]}
                 </span>
               );
             })}
           </div>
           <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
             {last365Days.map((day, index) => (
-                <HabitLog id={index} index={index} day={day} last365Days={last365Days} />
+                <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days} />
             ))}
           </div>
         </div>
