@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getLast365Days, groupDaysByMonth } from "../utils/utils";
 import HabitLog from "./HabitLog";
+import useUser from "../state/user";
 
 function Habit({ id, title, logs }) {
+    const { logHabit } = useUser();
     const [habitName, setHabitName] = useState(title);
 
     const last365Days = useMemo(getLast365Days, []);
@@ -15,7 +17,7 @@ function Habit({ id, title, logs }) {
     useEffect(() => {
         if (spanRef.current && inputRef.current) {
             const spanWidth = spanRef.current.offsetWidth;
-            inputRef.current.style.width = `${spanWidth + 5}px`;
+            inputRef.current.style.width = `${spanWidth + 15}px`;
         }
     }, [habitName]);
 
@@ -89,7 +91,9 @@ function Habit({ id, title, logs }) {
           </div>
           <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
             {last365Days.map((day, index) => (
-                <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days} />
+                <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days} 
+                    logDay={async (day) => await logHabit(id, day) }
+                />
             ))}
           </div>
         </div>

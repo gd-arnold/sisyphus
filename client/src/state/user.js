@@ -52,6 +52,27 @@ const useUser = create((set, get) => ({
         } catch (e) {
             throw e;
         }
+    },
+
+    logHabit: async (id, date) => {
+        try {
+            const response = await api.post("/habit-log", { id, date });
+
+            if (response.log) {
+                set({
+                    habits: get().habits.map(habit => {
+                        if (habit.id === id)
+                            habit.HabitLog.push(response.log);
+
+                        return habit;
+                    })
+                });
+            } else {
+                throw new Error(`Failed adding log (date: ${date} for habit (id: ${id})`);
+            }
+        } catch (e) {
+            throw e;
+        }
     }
 }));
 
