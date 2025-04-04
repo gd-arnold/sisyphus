@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getLast365Days, groupDaysByMonth } from "../utils/utils";
-import classNames from "classnames";
+import HabitLog from "./HabitLog";
 
-function Habit({ id, name, HabitLog }) {
+function Habit({ id, name }) {
     const last365Days = useMemo(getLast365Days, []);
     const months = useMemo(() => groupDaysByMonth(last365Days), [last365Days]);
 
@@ -58,17 +58,7 @@ function Habit({ id, name, HabitLog }) {
           </div>
           <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
             {last365Days.map((day, index) => (
-              <div
-                className={classNames(
-                  "size-4 cursor-pointer rounded-sm border-[1px] border-transparent",
-                  {
-                    "bg-gray hover:bg-light-gray": true,
-                    "bg-green-500": false,
-                    "border-white": index === last365Days.length - 1,
-                  },
-                )}
-              >
-              </div>
+                <HabitLog id={index} index={index} day={day} last365Days={last365Days} />
             ))}
           </div>
         </div>
