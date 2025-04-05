@@ -57,6 +57,20 @@ const api = {
             console.error(e);
             throw e;
         }
+    },
+    delete: async (url, body) => {
+        try {
+            const response = await fetch(API_URL + url, {
+                method: "DELETE",
+                headers: setHeaders(),
+                body: JSON.stringify(body)
+            });
+
+            return await handleResponse(response);
+        } catch(e) {
+            console.error(e);
+            throw e;
+        }
     }
 };
 

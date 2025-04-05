@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { Tooltip } from "react-tooltip";
 
-function HabitLog({ index, day, last365Days, logs, logDay }) {
+function HabitLog({ index, day, last365Days, logs, logDay, unlogDay }) {
     const isFiller = day === "FILLER";
 
     const isLogged = day => {
@@ -19,9 +19,12 @@ function HabitLog({ index, day, last365Days, logs, logDay }) {
 
     const handleClick = day => {
         if (isFiller) return;
+        console.log(logs);
 
-        if (isLogged(logs, day)) {
-            // todo: unlog
+        const log = isLogged(day);
+
+        if (log) {
+            unlogDay(log.id);
         } else {
             logDay(day);
         }

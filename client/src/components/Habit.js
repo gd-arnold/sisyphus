@@ -4,7 +4,7 @@ import HabitLog from "./HabitLog";
 import useUser from "../state/user";
 
 function Habit({ id, title, logs }) {
-    const { logHabit } = useUser();
+    const { logHabit, unlogHabit } = useUser();
     const [habitName, setHabitName] = useState(title);
 
     const last365Days = useMemo(getLast365Days, []);
@@ -92,7 +92,8 @@ function Habit({ id, title, logs }) {
           <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
             {last365Days.map((day, index) => (
                 <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days} 
-                    logDay={async (day) => await logHabit(id, day) }
+                    logDay={async (day) => await logHabit(id, day)}
+                    unlogDay={async (logId) => await unlogHabit(id, logId)}
                 />
             ))}
           </div>

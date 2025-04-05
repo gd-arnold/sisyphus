@@ -73,6 +73,23 @@ const useUser = create((set, get) => ({
         } catch (e) {
             throw e;
         }
+    },
+
+    unlogHabit: async (habitId, logId) => {
+        try {
+            await api.delete(`/habit-log/${logId}`);
+
+            set({
+                habits: get().habits.map(habit => {
+                    if (habit.id === habitId)
+                        habit.HabitLog = habit.HabitLog.filter(log => log.id !== logId);
+
+                    return habit;
+                })
+            });
+        } catch (e) {
+            throw e;
+        }
     }
 }));
 
