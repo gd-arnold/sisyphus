@@ -1,8 +1,6 @@
 # Build stage
 FROM node:20-alpine AS build
 
-ARG API_URL
-
 WORKDIR /app
 
 COPY package*.json /
