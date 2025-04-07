@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: registry.digitalocean.com/sisyphus-registry
   IMAGE_NAME: sisyphus-client
-  API_URL: https://sisyphus.garnaudov.com
+  API_URL: https://sisyphus.garnaudov.com/api
 
 jobs:
   build-and-push:
