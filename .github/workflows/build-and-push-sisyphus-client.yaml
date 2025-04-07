@@ -14,7 +14,6 @@ env:
 
 jobs:
   build-and-push:
-    needs: run-migrations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
