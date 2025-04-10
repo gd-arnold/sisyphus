@@ -2,9 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getLast365Days, groupDaysByMonth } from "../utils/utils";
 import HabitLog from "./HabitLog";
 import useUser from "../state/user";
+import { Trash } from "lucide-react";
 
 function Habit({ id, title, logs }) {
-    const { logHabit, unlogHabit } = useUser();
+    const { logHabit, unlogHabit, deleteHabit } = useUser();
     const [habitName, setHabitName] = useState(title);
 
     const last365Days = useMemo(getLast365Days, []);
@@ -26,81 +27,87 @@ function Habit({ id, title, logs }) {
         ref.current.scrollLeft = ref.current.scrollWidth;
     }, []);
 
-  return (
-    <>
-      <div className="group flex flex-col gap-2 rounded-lg bg-dark-gray p-4 md:max-w-[750px]">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex flex-grow items-center gap-2 overflow-hidden">
-            <div
-              className="flex items-center"
-              style={{
-                maxWidth: "calc(100% - 7rem)",
-              }}
-            >
-              <span
-                ref={spanRef}
-                className="invisible absolute max-w-full text-xl font-bold"
-                style={{ whiteSpace: "pre" }}
-              >
-                {habitName || " "}
-              </span>
-
-              <input
-                ref={inputRef}
-                value={habitName}
-                onChange={(e) => setHabitName(e.target.value)}
-                className="bg-transparent text-xl font-bold outline-none"
-                style={{ minWidth: "1ch" }}
-                //todo: rename onBlur={rename}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    // todo: rename habit  
-                    inputRef.current?.blur();
-                  }
+    return (
+      <>
+        <div className="group flex flex-col gap-2 rounded-lg bg-dark-gray p-4 md:max-w-[750px]">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex flex-grow items-center gap-2 overflow-hidden">
+              <div
+                className="flex items-center"
+                style={{
+                  maxWidth: "calc(100% - 7rem)",
                 }}
-              />
+              >
+                <span
+                  ref={spanRef}
+                  className="invisible absolute max-w-full text-xl font-bold"
+                  style={{ whiteSpace: "pre" }}
+                >
+                  {habitName || " "}
+                </span>
 
+                <input
+                  ref={inputRef}
+                  value={habitName}
+                  onChange={(e) => setHabitName(e.target.value)}
+                  className="bg-transparent text-xl font-bold outline-none"
+                  style={{ minWidth: "1ch" }}
+                  // todo: rename; onBlur={rename}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      // todo: rename habit  
+                      inputRef.current?.blur();
+                    }
+                  }}
+                />
+
+              </div>
             </div>
 
+            <button
+              className="min-w-fit cursor-pointer p-2 duration-100 group-hover:opacity-100 md:opacity-0"
+              onClick={() => deleteHabit(id)}
+            >
+              <Trash className="size-5 text-red-500" />
+            </button>
+
           </div>
 
-        </div>
+          <div
+            className="hide-scrollbar flex flex-col gap-1 overflow-auto"
+            ref={ref}
+          >
+            <div className="flex text-ellipsis">
+              {Object.entries(months).map(([month, startIndex]) => {
+                const margin = startIndex / 7;
 
-        <div
-          className="hide-scrollbar flex flex-col gap-1 overflow-auto"
-          ref={ref}
-        >
-          <div className="flex text-ellipsis">
-            {Object.entries(months).map(([month, startIndex]) => {
-              const margin = startIndex / 7;
-
-              return (
-                <span
-                  key={month}
-                  style={{
-                    marginLeft: `${margin * 13}px`,
-                  }}
-                >
-                  {month.split(" ")[1]}
-                </span>
-              );
-            })}
-          </div>
-          <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
-            {last365Days.map((day, index) => (
-                <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days} 
-                    logDay={async (day) => await logHabit(id, day)}
-                    unlogDay={async (logId) => await unlogHabit(id, logId)}
+                return (
+                  <span
+                    key={month}
+                    style={{
+                      marginLeft: `${margin * 13}px`,
+                    }}
+                  >
+                    {month.split(" ")[1]}
+                  </span>
+                );
+              })}
+            </div>
+            <div className="grid w-fit grid-flow-col grid-rows-7 gap-1 overflow-auto">
+              {last365Days.map((day, index) => (
+                <HabitLog key={index} index={index} day={day} logs={logs} last365Days={last365Days}
+                  logDay={async (day) => await logHabit(id, day)}
+                  unlogDay={async (logId) => await unlogHabit(id, logId)}
                 />
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
 }
 
 export default Habit;

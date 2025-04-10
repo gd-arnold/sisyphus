@@ -54,6 +54,19 @@ const useUser = create((set, get) => ({
         }
     },
 
+    deleteHabit: async (id) => {
+        try {
+            console.log(id);
+            await api.delete(`/habit/${id}`);
+
+            set({
+                habits: get().habits.filter(habit => habit.id !== id)
+            });
+        } catch (e) {
+            throw e;
+        }
+    },
+
     logHabit: async (id, date) => {
         try {
             const response = await api.post("/habit-log", { id, date });
