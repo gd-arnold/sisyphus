@@ -30,7 +30,7 @@ model Habit {
 model HabitLog {
   id        Int      @id @default(autoincrement())
   date      DateTime @db.Date
-  habit     Habit    @relation(fields: [habitId], references: [id])
+  habit     Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
   habitId   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
