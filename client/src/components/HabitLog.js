@@ -1,7 +1,16 @@
 import classNames from "classnames";
+import { useEffect, useState } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 import { Tooltip } from "react-tooltip";
 
 function HabitLog({ index, day, last365Days, logs, logDay, unlogDay }) {
+    const [gotLogged, setGotLogged] = useState(false);
+
+    useEffect(() => {
+        if (gotLogged)
+            setTimeout(() => setGotLogged(false), 2000);
+    }, [gotLogged]);
+
     const isFiller = day === "FILLER";
 
     const isLogged = day => {
@@ -25,8 +34,10 @@ function HabitLog({ index, day, last365Days, logs, logDay, unlogDay }) {
 
         if (log) {
             unlogDay(log.id);
+            setGotLogged(false);
         } else {
             logDay(day);
+            setGotLogged(true);
         }
     }
 
@@ -47,6 +58,7 @@ function HabitLog({ index, day, last365Days, logs, logDay, unlogDay }) {
         onClick={() => handleClick(day)}
         >
         {!isFiller && <Tooltip id={day} />}
+        {gotLogged && <ConfettiExplosion particleCount={40} />}
         </div>
     );
 }
