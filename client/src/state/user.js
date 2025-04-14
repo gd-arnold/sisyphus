@@ -24,7 +24,6 @@ const useUser = create((set, get) => ({
     fetchHabits: async () => {
         try {
             const response = await api.get("/habit");
-            console.log(response);
 
             if (response.habits) {
                 set({
@@ -56,7 +55,6 @@ const useUser = create((set, get) => ({
 
     deleteHabit: async (id) => {
         try {
-            console.log(id);
             await api.delete(`/habit/${id}`);
 
             set({

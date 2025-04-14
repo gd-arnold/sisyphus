@@ -28,7 +28,6 @@ function HabitLog({ index, day, last365Days, logs, logDay, unlogDay }) {
 
     const handleClick = day => {
         if (isFiller) return;
-        console.log(logs);
 
         const log = isLogged(day);
 
