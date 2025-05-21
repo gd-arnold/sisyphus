@@ -1,6 +1,6 @@
 # Sisyphus - Simple Habit Tracker
 
-A minimalist habit tracking app for building consistency with daily progress visualization
+A minimalist habit tracking app for building consistency with daily progress visualization.
 
 ![sisyphus in action](images/sisyphus-screenshot.png)
 
