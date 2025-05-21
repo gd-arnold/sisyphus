@@ -5,6 +5,8 @@ A minimalist habit tracking app for building consistency with daily progress vis
 ## Live Demo
 [sisyphus.garnaudov.com](https://sisyphus.garnaudov.com)
 
+![sisyphus in action](images/sisyphus-screenshot.png)
+
 ## Tech Stack
 
 ### Backend (Node.js/Express API)
