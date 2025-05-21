@@ -2,9 +2,6 @@
 
 A minimalist habit tracking app for building consistency with daily progress visualization
 
-## Live Demo
-[sisyphus.garnaudov.com](https://sisyphus.garnaudov.com)
-
 ![sisyphus in action](images/sisyphus-screenshot.png)
 
 ## Tech Stack
