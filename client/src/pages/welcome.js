@@ -70,7 +70,7 @@ function Welcome() {
                         <h3 className="text-xl font-bold">Stay Motivated</h3>
                         <p className="text-light-gray text-center">
                             Watch your consistency improve over time. Small daily 
-                            actions lead to long-term results.
+                            actions lead to long-term results
                         </p>
                     </div>
                 </div>
